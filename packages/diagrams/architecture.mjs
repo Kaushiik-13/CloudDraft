@@ -184,7 +184,10 @@ async function main() {
         `../../icons/cloud/${encodeURIComponent(name)}.svg`,
         import.meta.url,
       );
-      return normalizeFetchedIcon(await readFile(asset, 'utf8'), name);
+      return normalizeFetchedIcon(
+        await readFile(asset, 'utf8'),
+        name.replaceAll('&', '_amp_'),
+      );
     },
   });
   try {
