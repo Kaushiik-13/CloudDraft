@@ -62,7 +62,15 @@ Application [color: blue] {
 Gateway > Worker: Invoke
 ```
 
-CloudDraft supports nested groups, local SVG icons, labeled connections, and left-to-right or top-to-bottom placement. The CLI places nodes in declaration order and routes connectors automatically. PNG and HTML exports are static. See the [local usage guide](LOCAL.md) for the supported syntax and custom icon setup.
+CloudDraft supports nested groups, local SVG icons, labeled connections, and left-to-right or top-to-bottom placement. The CLI places nodes in declaration order and routes connectors automatically. PNG and HTML exports are static.
+
+Use one statement per line and declare both ends of a connection. Supported
+connectors are `>`, `<`, `<>`, and `--`. Put custom SVGs in `icons/` or set
+`ARCHITECTURE_ICONS` to point at another directory. Custom icons take precedence
+over the bundled catalog.
+
+For exact node coordinates, see the [JSON diagram guide](GETTING_STARTED.md).
+For custom components and styling, see [Customization](CUSTOMIZATION.md).
 
 ## Credits and license
 

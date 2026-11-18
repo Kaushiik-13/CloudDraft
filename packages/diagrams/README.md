@@ -32,4 +32,4 @@ Set `theme: 'dark'` on `createRenderer` for its default presentation, or on an i
 
 PNG output has a white background in light mode and `#171717` in dark mode. Pass `transparent: true` to `createRenderer` to preserve background transparency; authored fills remain visible and HTML output is unaffected.
 
-`renderer.validate` runs the same validation as `render` without touching the browser. Rendering guides live in the repo root: `GETTING_STARTED.md` for authoring and `CUSTOMIZATION.md` for bringing your own component library, palette, and fonts.
+`renderer.validate` runs the same validation as `render` without touching the browser. Rendering guides live in the repo root: [JSON diagram authoring](../../GETTING_STARTED.md) and [customization](../../CUSTOMIZATION.md) for bringing your own component library, palette, and fonts.

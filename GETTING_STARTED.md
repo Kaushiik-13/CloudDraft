@@ -1,23 +1,9 @@
-# Getting Started with Eraser Diagrams
+# Author diagrams in JSON
 
-Eraser Diagrams turns diagram JSON into rendered PNG or HTML output — or hands the measured diagram back as JSON. A diagram is a JSON document of tagged elements; Eraser Diagrams validates it, resolves icons and fonts, renders and measures it in Chromium, routes connections against the measured geometry, and produces the output you asked for.
-
-The fastest way to try it is the CLI. For application integrations, the same functionality is available through the Node API.
-
-## Requirements
-
-- **Node.js 22.23.4+, 24.22.1+, or 26.12.1+** — the releases with the latest Node.js security fixes.
-- **A Chromium-family browser.** Eraser Diagrams does not install or bundle one. Locally, an installed Google Chrome works. In containers, CI, or serverless environments, use the Chromium distribution appropriate for that environment (or the one your app already ships with Puppeteer or Playwright).
-- **Network access** at render time if you use Eraser's hosted icon catalog or remotely hosted fonts.
-
-## Install
-
-```bash
-npm install @eraserlabs/diagrams        # Node API
-npm install -D @eraserlabs/diagrams-cli # eraser-diagrams command
-```
-
-`@eraserlabs/diagrams` is the Node API. [`@eraserlabs/diagrams-cli`](./packages/diagrams-cli/README.md) provides the `eraser-diagrams` command.
+CloudDraft’s JSON renderer lets you specify node positions and sizes, then
+routes the connectors and exports PNG or HTML. Follow the [CloudDraft quick
+start](./README.md#quick-start) to install dependencies and build the CLI.
+The JSON renderer uses Eraser’s hosted catalog by default for named icons.
 
 ## Your first diagram
 
@@ -68,7 +54,7 @@ A connection needs no `tag` and no `id` — anything in `connections` is a `Rela
 Render it, pointing at a Chromium executable. On macOS with Chrome installed:
 
 ```bash
-npx eraser-diagrams render diagram.json \
+node packages/diagrams-cli/dist/cli.js render diagram.json \
   --chromium-path "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   -o diagram.png
 ```
@@ -100,7 +86,7 @@ For repeated use, put stable settings in a config file instead of repeating flag
 The CLI picks up the nearest `eraser-diagrams.config.json` at or above the current directory automatically — the search stops at the first directory containing `.git`, so a config in one repository is never picked up from another. `--config <path>` or `ERASER_DIAGRAMS_CONFIG` names one explicitly, and `--no-config` skips discovery entirely. From then on:
 
 ```bash
-npx eraser-diagrams render diagram.json -o diagram.png
+node packages/diagrams-cli/dist/cli.js render diagram.json -o diagram.png
 ```
 
 Flags override environment variables, which override the config file. The config file accepts:
@@ -142,7 +128,7 @@ A third output — the measured diagram as JSON — is currently available throu
 PNG is the default format. Use it anywhere the diagram should behave like an ordinary image: Slack, documents, presentations, generated reports.
 
 ```bash
-npx eraser-diagrams render diagram.json -o diagram.png
+node packages/diagrams-cli/dist/cli.js render diagram.json -o diagram.png
 ```
 
 ### HTML
@@ -152,7 +138,7 @@ npx eraser-diagrams render diagram.json -o diagram.png
 The document is static and carries its own Content-Security-Policy: no script runs, and it loads only its inline styles, `data:` images, and its fonts (`data:`, plus `file:` or the origin of each referenced font). Links in labels still work. The policy applies when the document is opened as a page or in a frame; markup inserted into another page follows that page's policy.
 
 ```bash
-npx eraser-diagrams render diagram.json --format html -o diagram.html
+node packages/diagrams-cli/dist/cli.js render diagram.json --format html -o diagram.html
 ```
 
 ### Diagnostics
@@ -424,19 +410,10 @@ The handle also exposes:
 The CLI is the simplest CI integration. A typical job installs dependencies, makes Chromium available (`CHROMIUM_PATH`), and renders:
 
 ```bash
-npx eraser-diagrams render diagrams/*.json --out-dir artifacts --fail-on-warning
+node packages/diagrams-cli/dist/cli.js render diagrams/*.json --out-dir artifacts --fail-on-warning
 ```
 
 The input is ordinary JSON, so earlier steps in the job — scripts, code generators, LLMs — can produce or modify it without access to a browser. Only the render step needs Chromium. A failed render exits non-zero with the errors on stderr (or a JSON report on stdout with `--json`), which fails the job.
-
-## Using Eraser Diagrams in a server
-
-If Eraser Diagrams is part of an existing Node service, import `@eraserlabs/diagrams` directly: call `createRenderer` at startup, render per request, and set `pages` to allow concurrent renders. There is no need to run a separate rendering service.
-
-
-## Serverless and Lambda
-
-The Node API works in Lambda and similar environments. The one extra consideration is Chromium: use a distribution built for your platform (for example `@sparticuz/chromium` on Lambda) and pass its executable path as `chromiumPath`, or connect to a remote browser service via the `browser` provider. Keep the `createRenderer` instance alive across warm invocations rather than booting Chromium per request.
 
 ## Customizing Eraser Diagrams
 
@@ -446,7 +423,5 @@ When you outgrow the defaults, you can override stock components, define your ow
 
 ## Next steps
 
-- Read the [README](./README.md) for the design principles behind Eraser Diagrams.
 - Read [CUSTOMIZATION.md](./CUSTOMIZATION.md) to define your own components, variants, and visual system.
 - Read the [Model Diagramming Protocol spec](./packages/protocol/SPEC.md) for the underlying contracts.
-- Working on Eraser Diagrams itself? The repository includes a [local playground](./packages/playground/README.md) for exploring fixtures, schemas, and rendering in the browser.
