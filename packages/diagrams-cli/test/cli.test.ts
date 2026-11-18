@@ -57,7 +57,7 @@ const WRAPPED_FIXTURE = join(
   'elements-badges.json',
 );
 /** Executable installed by the Playwright development test setup (may be absent). */
-const PLAYWRIGHT_CHROMIUM = chromium.executablePath();
+const PLAYWRIGHT_CHROMIUM = process.env.CHROMIUM_PATH || chromium.executablePath();
 const CHROMIUM_PATH = existsSync(PLAYWRIGHT_CHROMIUM) ? PLAYWRIGHT_CHROMIUM : null;
 const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
 
