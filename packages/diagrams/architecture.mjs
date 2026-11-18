@@ -1,6 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, extname, join } from 'node:path';
-import { createRenderer, eraserFonts } from './dist/index.js';
+import {
+  createRenderer,
+  eraserFonts,
+  normalizeFetchedIcon,
+} from './dist/index.js';
 
 function architecture(source) {
   const root = { children: [] };
@@ -167,11 +171,20 @@ async function main() {
     fonts,
     onUnknownIcon: 'error',
     iconLoader: async (name) => {
-      if (!/^[\w-]+$/.test(name)) throw new Error('Invalid icon name');
-      return readFile(
-        join(process.env.ARCHITECTURE_ICONS || 'icons', `${name}.svg`),
-        'utf8',
+      if (!/^[\w&-]+$/.test(name)) throw new Error('Invalid icon name');
+      try {
+        return await readFile(
+          join(process.env.ARCHITECTURE_ICONS || 'icons', `${name}.svg`),
+          'utf8',
+        );
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+      const asset = new URL(
+        `../../icons/cloud/${encodeURIComponent(name)}.svg`,
+        import.meta.url,
       );
+      return normalizeFetchedIcon(await readFile(asset, 'utf8'), name);
     },
   });
   try {

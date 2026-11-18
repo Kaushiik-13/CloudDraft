@@ -24,7 +24,8 @@
     "snap:update": "pnpm --filter @eraserlabs/diagrams snap:update",
     "snap:report": "pnpm --filter @eraserlabs/diagrams snap:report",
     "snap:sheet": "tsx tools/fixtures/snap-sheet.ts",
-    "architecture": "node packages/diagrams/architecture.mjs"
+    "architecture": "node packages/diagrams/architecture.mjs",
+    "icons:cloud": "node tools/install-cloud-icons.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",

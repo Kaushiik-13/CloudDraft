@@ -1,0 +1,19 @@
+cloud-architecture-diagram
+direction right
+
+AWS [color: orange] {
+  API Gateway [icon: aws-api-gateway]
+  Lambda [icon: aws-lambda]
+  Amazon S3 [icon: aws-simple-storage-service]
+}
+Google Cloud [color: blue] {
+  "Pub/Sub" [icon: gcp-pubsub]
+  Cloud Run [icon: gcp-cloud-run]
+  BigQuery [icon: gcp-bigquery]
+}
+
+API Gateway > Lambda: Invoke
+Lambda > Amazon S3: Store
+Lambda > "Pub/Sub": Publish
+"Pub/Sub" > Cloud Run: Deliver
+Cloud Run > BigQuery: Write
