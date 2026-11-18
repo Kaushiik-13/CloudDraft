@@ -7,6 +7,7 @@ import {
   eraserFonts,
   normalizeFetchedIcon,
 } from './dist/index.js';
+import { resolveIconName, suggestIcons } from './icon-names.mjs';
 
 export function architecture(source) {
   const root = { children: [] };
@@ -180,16 +181,12 @@ export function createLocalRenderer() {
       : { chromiumPath }),
     fonts,
     onUnknownIcon: 'error',
-    iconLoader: async (name) => {
-      if (!/^[\w&-]+$/.test(name)) throw new Error('Invalid icon name');
-      try {
-        return await readFile(
-          join(process.env.ARCHITECTURE_ICONS || 'icons', `${name}.svg`),
-          'utf8',
-        );
-      } catch (error) {
-        if (error.code !== 'ENOENT') throw error;
-      }
+    iconLoader: async (requested) => {
+      if (!/^[\w&-]+$/.test(requested)) throw new Error('Invalid icon name');
+      const custom = await readCustomIcon(requested);
+      if (custom !== undefined) return custom;
+      const name =
+        resolveIconName(requested, await catalogNames()) ?? requested;
       const asset = new URL(
         `../../icons/cloud/${encodeURIComponent(name)}.svg`,
         import.meta.url,
@@ -200,6 +197,69 @@ export function createLocalRenderer() {
       );
     },
   });
+}
+
+async function readCustomIcon(name) {
+  try {
+    return await readFile(
+      join(process.env.ARCHITECTURE_ICONS || 'icons', `${name}.svg`),
+      'utf8',
+    );
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+}
+
+let catalogPromise;
+export function catalogNames() {
+  catalogPromise ??= readFile(
+    new URL('../../icons/cloud/catalog.json', import.meta.url),
+    'utf8',
+  )
+    .then(
+      (text) =>
+        new Set(JSON.parse(text).categories.flatMap(({ names }) => names)),
+    )
+    .catch((error) => {
+      catalogPromise = undefined;
+      throw error;
+    });
+  return catalogPromise;
+}
+
+/**
+ * Rewrites every icon name in a diagram document to its catalog name, so
+ * "aws-s3" becomes "aws-simple-storage-service". Throws one error that lists
+ * every unknown icon with suggestions instead of letting the render fail.
+ */
+export async function resolveDocumentIcons(document) {
+  const names = await catalogNames();
+  const unknown = new Map();
+  const visit = async (value) => {
+    if (Array.isArray(value)) return Promise.all(value.map(visit));
+    if (!value || typeof value !== 'object') return;
+    for (const [key, child] of Object.entries(value)) {
+      if (key === 'icon' && typeof child === 'string' && child) {
+        if (/^https?:|^data:|^blob:/i.test(child)) continue;
+        if ((await readCustomIcon(child)) !== undefined) continue;
+        const resolved = resolveIconName(child, names);
+        if (resolved) value[key] = resolved;
+        else unknown.set(child, suggestIcons(child, names));
+      } else await visit(child);
+    }
+  };
+  const copy = structuredClone(document);
+  await visit(copy);
+  if (unknown.size) {
+    const lines = [...unknown].map(
+      ([name, options]) =>
+        `Unknown icon "${name}".${options.length ? ` Did you mean: ${options.join(', ')}?` : ''}`,
+    );
+    throw new Error(
+      `${lines.join(' ')} Use list_icons to find exact icon names.`,
+    );
+  }
+  return copy;
 }
 
 async function main() {

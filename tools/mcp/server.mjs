@@ -14,8 +14,11 @@ import {
 import { z } from 'zod';
 import {
   architecture,
+  catalogNames,
   createLocalRenderer,
+  resolveDocumentIcons,
 } from '../../packages/diagrams/architecture.mjs';
+import { searchIcons } from '../../packages/diagrams/icon-names.mjs';
 
 const canvasUri = 'ui://clouddraft/canvas.html';
 const widget = new URL('./dist/canvas.html', import.meta.url);
@@ -46,12 +49,14 @@ function renderer() {
   return rendererPromise;
 }
 
-function documentFrom({ source, document }) {
+async function documentFrom({ source, document }) {
   if ((source === undefined) === (document === undefined)) {
     throw new Error('Provide either source or document.');
   }
-  return documentSchema.parse(
-    source === undefined ? document : architecture(source),
+  return resolveDocumentIcons(
+    documentSchema.parse(
+      source === undefined ? document : architecture(source),
+    ),
   );
 }
 
@@ -231,17 +236,17 @@ define(
   'Validate CloudDraft architecture source or a JSON diagram.',
   input,
   async (args) => {
-    const result = await (await renderer()).validate(documentFrom(args));
+    const result = await (await renderer()).validate(await documentFrom(args));
     return structured(result, JSON.stringify(result));
   },
 );
 define(
   'open_diagram',
-  'Open an editable diagram on the CloudDraft canvas. Supply architecture source or split JSON with stable entity IDs.',
+  'Open an editable diagram on the CloudDraft canvas. Supply architecture source or split JSON with stable entity IDs. Icon names come from list_icons; common short names such as s3 or sqs are mapped automatically.',
   input,
   async (args) => {
     const record = await renderRecord(
-      editable(documentFrom(args)),
+      editable(await documentFrom(args)),
       randomUUID(),
       1,
     );
@@ -285,7 +290,7 @@ define(
   async (args) => {
     return withRecordLock(args.id, async () => {
       const current = await lookup(args);
-      const document = applyEdits(current, args);
+      const document = await resolveDocumentIcons(applyEdits(current, args));
       const next = await renderRecord(
         document,
         current.id,
@@ -313,7 +318,7 @@ define(
         revision: current.revision + 1,
         renderedRevision: current.renderedRevision ?? current.revision,
         dirty: true,
-        document: applyEdits(current, args),
+        document: await resolveDocumentIcons(applyEdits(current, args)),
       };
       await saveRecord(next);
       return canvasResult(next);
@@ -344,7 +349,10 @@ define(
   async (args) => {
     const result = await (
       await renderer()
-    ).render({ ...documentFrom(args), outputs: { [args.format]: true } });
+    ).render({
+      ...(await documentFrom(args)),
+      outputs: { [args.format]: true },
+    });
     if (!result.ok) throw new Error(JSON.stringify(result.errors));
     return args.format === 'png'
       ? {
@@ -372,26 +380,14 @@ define(
 );
 define(
   'list_icons',
-  'Search the bundled AWS and Google Cloud icon names.',
+  'Search the bundled AWS and Google Cloud icon names. Call this before using an icon: names are long, for example Amazon S3 is aws-simple-storage-service and SQS is aws-simple-queue-service. Short names like s3 or sqs are matched too.',
   z.object({
     query: z.string().default(''),
     provider: z.enum(['aws', 'gcp']).optional(),
     offset: z.number().int().nonnegative().default(0),
   }),
   async ({ query, provider, offset }) => {
-    const catalog = JSON.parse(
-      await readFile(
-        new URL('../../icons/cloud/catalog.json', import.meta.url),
-        'utf8',
-      ),
-    );
-    const matches = catalog.categories
-      .flatMap(({ names }) => names)
-      .filter(
-        (name) =>
-          (!provider || name.startsWith(`${provider}-`)) &&
-          name.toLowerCase().includes(query.toLowerCase()),
-      );
+    const matches = searchIcons(query, await catalogNames(), provider);
     return structured({
       total: matches.length,
       offset,

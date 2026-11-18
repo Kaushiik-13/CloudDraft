@@ -106,7 +106,7 @@ deployed MCP endpoint and verification in each host.
 
 This repository includes a production Docker image and a free Render Blueprint.
 In the Render dashboard, create a Blueprint from this repository and select the
-`clouddraft-mcp-canvas` branch. When prompted, set
+`main` branch. When prompted, set
 `CLOUDDRAFT_MCP_PATH_TOKEN` to a private value containing at least 16 letters,
 numbers, hyphens, or underscores. Render builds the canvas and starts the MCP
 server automatically.
