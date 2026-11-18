@@ -1,3 +1,13 @@
+# CloudDraft
+
+CloudDraft is a local command-line tool for writing cloud architecture diagrams
+and exporting them to PNG and standalone HTML. It builds on the MIT-licensed
+Eraser Diagrams engine and supports locally installed AWS and Google Cloud icons.
+
+See [CloudDraft setup and examples](LOCAL.md) to render your first diagram.
+
+---
+
 # Eraser Diagrams
 
 ![Four diagrams built with Eraser Diagrams: an Azure BI Platform multi-region HA/DR architecture, a Willy Wonka's Chocolate Factory organizational chart, an employee expense reimbursement swimlane process, and a Predictive Maintenance Platform architecture](./docs/images/examples.png)
