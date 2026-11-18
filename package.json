@@ -22,7 +22,10 @@
     "snap:update": "pnpm --filter @eraserlabs/diagrams snap:update",
     "snap:report": "pnpm --filter @eraserlabs/diagrams snap:report",
     "architecture": "node packages/diagrams/architecture.mjs",
-    "icons:cloud": "node tools/install-cloud-icons.mjs"
+    "icons:cloud": "node tools/install-cloud-icons.mjs",
+    "mcp:build": "node tools/mcp/build.mjs",
+    "mcp": "node tools/mcp/server.mjs",
+    "canvas": "node tools/mcp/server.mjs --preview"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
@@ -40,5 +43,10 @@
     "onlyBuiltDependencies": [
       "esbuild"
     ]
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "1.7.5",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "^4.6.7"
   }
 }

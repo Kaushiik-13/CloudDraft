@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudDraft canvas</title>
+<style>
+  [hidden] { display: none !important; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font: 14px system-ui, sans-serif; color: #201b31; background: #f7f6fc; }
+  header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  h1 { font-size: 19px; margin: 0 auto 0 0; }
+  header button { background: white; color: inherit; border: 1px solid #d7d1e6; border-radius: 8px; padding: 7px 10px; }
+  #status { min-height: 1.5em; color: #534763; }
+  #stage { width: 100%; position: relative; background: white; border-radius: 10px; box-shadow: 0 0 0 1px #d7d1e6; }
+  #diagram, #nodes { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; }
+  #diagram { user-select: none; pointer-events: none; }
+  #nodes button { position: absolute; appearance: none; background: transparent; border: 0; padding: 0; touch-action: none; cursor: grab; border-radius: 5px; }
+  #nodes button:hover, #nodes button:focus-visible { outline: 2px solid #7447db; outline-offset: 2px; }
+  #nodes button.dragging { background: #7447db33; outline: 2px dashed #7447db; cursor: grabbing; z-index: 1; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CloudDraft</h1>
+  <button id="sample" hidden>Open example</button>
+  <button id="png" disabled>Export PNG</button>
+  <button id="json" disabled>Export JSON</button>
+</header>
+<p id="status" role="status">Preparing canvas…</p>
+<div id="stage" hidden>
+  <img id="diagram" alt="Rendered cloud architecture">
+  <div id="nodes"></div>
+</div>
+<!-- canvas script -->
+</body>
+</html>

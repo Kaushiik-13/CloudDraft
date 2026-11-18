@@ -1,12 +1,13 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, extname, join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   createRenderer,
   eraserFonts,
   normalizeFetchedIcon,
 } from './dist/index.js';
 
-function architecture(source) {
+export function architecture(source) {
   const root = { children: [] };
   const stack = [root];
   const nodes = new Map();
@@ -157,16 +158,10 @@ function architecture(source) {
   return { entities, connections };
 }
 
-async function main() {
-  const [input, outputDir = 'exports'] = process.argv.slice(2);
-  if (!input)
-    throw new Error(
-      'Usage: pnpm architecture <file.eraserdiagram> [output-directory]',
-    );
-  const document = architecture(await readFile(input, 'utf8'));
+export function createLocalRenderer() {
   const fonts = eraserFonts();
   fonts.faces = fonts.faces.map((face) => ({ ...face, inline: true }));
-  const renderer = await createRenderer({
+  return createRenderer({
     chromiumPath: process.env.CHROMIUM_PATH || '/usr/bin/chromium',
     fonts,
     onUnknownIcon: 'error',
@@ -190,6 +185,16 @@ async function main() {
       );
     },
   });
+}
+
+async function main() {
+  const [input, outputDir = 'exports'] = process.argv.slice(2);
+  if (!input)
+    throw new Error(
+      'Usage: pnpm architecture <file.eraserdiagram> [output-directory]',
+    );
+  const document = architecture(await readFile(input, 'utf8'));
+  const renderer = await createLocalRenderer();
   try {
     const result = await renderer.render({
       ...document,
@@ -206,7 +211,12 @@ async function main() {
     await renderer.close();
   }
 }
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
+}

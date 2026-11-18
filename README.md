@@ -75,3 +75,29 @@ For custom components and styling, see [Customization](docs/CUSTOMIZATION.md).
 ## Credits and license
 
 CloudDraft uses the MIT-licensed [Eraser Diagrams](https://github.com/eraserlabs/eraser-diagrams) engine. See [LICENSE](LICENSE).
+
+## Interactive MCP prototype
+
+After building CloudDraft, run:
+
+```sh
+corepack pnpm mcp:build
+corepack pnpm canvas
+```
+
+Open `http://127.0.0.1:4318` for a local preview. Drag a service or focus it
+and press an arrow key. CloudDraft reroutes connectors on release. You can
+export the current PNG or editable JSON.
+
+For an MCP client, run `node tools/mcp/server.mjs` over stdio from the
+repository root, or connect to `http://127.0.0.1:4318/mcp` while the preview
+server is running. Build the canvas first. Clients that support MCP Apps
+can display the canvas from the `open_diagram` tool. Other clients can use
+`render_diagram` to get PNG or standalone HTML.
+
+Use `get_diagram` to read the current revision and `edit_diagram` to apply
+changes by node ID. This preserves manual placement for nodes whose coordinates
+you leave alone. Sessions live in memory. Export JSON if you want to reopen
+a diagram later. The HTTP server listens on loopback for local development.
+Hosted ChatGPT or Gemini integration requires a separately deployed MCP
+endpoint and verification in each host.
