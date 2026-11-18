@@ -1,0 +1,21 @@
+cloud-architecture-diagram
+direction right
+
+Media platform [color: gray] {
+  Ingest and transcode [color: blue] {
+    Uploads [icon: aws-simple-storage-service, label: Upload bucket]
+    Events [icon: aws-eventbridge, label: EventBridge]
+    Workflow [icon: aws-step-functions, label: Step Functions]
+    Encoder [icon: aws-elemental-mediaconvert, label: MediaConvert]
+  }
+  Publish and deliver [color: green] {
+    Renditions [icon: aws-simple-storage-service, label: Renditions bucket]
+    CDN [icon: aws-cloudfront, label: CloudFront]
+  }
+}
+
+Uploads > Events: Object created
+Events > Workflow: Start
+Workflow > Encoder: Submit job
+Encoder > Renditions: Write renditions
+CDN > Renditions: Fetch origin
