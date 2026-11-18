@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: clouddraft-mcp
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: clouddraft-mcp-canvas
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: CLOUDDRAFT_MCP_PATH_TOKEN
+        sync: false
+      - key: CLOUDDRAFT_ALLOWED_ORIGINS
+        value: https://claude.ai,https://claude.com

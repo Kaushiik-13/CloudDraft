@@ -97,7 +97,37 @@ can display the canvas from the `open_diagram` tool. Other clients can use
 
 Use `get_diagram` to read the current revision and `edit_diagram` to apply
 changes by node ID. This preserves manual placement for nodes whose coordinates
-you leave alone. Sessions live in memory. Export JSON if you want to reopen
-a diagram later. The HTTP server listens on loopback for local development.
-Hosted ChatGPT or Gemini integration requires a separately deployed MCP
-endpoint and verification in each host.
+you leave alone. Local sessions use temporary files. Export JSON if you want to
+reopen a diagram later. The preview HTTP server listens on loopback for local
+development. Hosted ChatGPT or Gemini integration requires a separately
+deployed MCP endpoint and verification in each host.
+
+## Deploy the MCP server on Render
+
+This repository includes a production Docker image and a free Render Blueprint.
+In the Render dashboard, create a Blueprint from this repository and select the
+`clouddraft-mcp-canvas` branch. When prompted, set
+`CLOUDDRAFT_MCP_PATH_TOKEN` to a private value containing at least 16 letters,
+numbers, hyphens, or underscores. Render builds the canvas and starts the MCP
+server automatically.
+
+After the service is live, its health check is:
+
+```text
+https://YOUR-SERVICE.onrender.com/health
+```
+
+Add this URL as a custom connector in Claude Desktop, replacing both values:
+
+```text
+https://YOUR-SERVICE.onrender.com/mcp/YOUR_PRIVATE_TOKEN
+```
+
+Do not publish or commit the token. `CLOUDDRAFT_ALLOWED_ORIGINS` defaults to
+Claude's web origins and can be changed in Render if another MCP host needs
+browser access.
+
+Render's free web services sleep when idle and have an ephemeral filesystem.
+Consequently, the first request after sleep can be slower and active diagram
+sessions can disappear after a sleep, restart, or redeploy. Export the diagram
+JSON before leaving a session. Durable hosted sessions require external storage.

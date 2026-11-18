@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, extname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { chromium } from 'playwright-core';
 import {
   createRenderer,
   eraserFonts,
@@ -161,8 +162,22 @@ export function architecture(source) {
 export function createLocalRenderer() {
   const fonts = eraserFonts();
   fonts.faces = fonts.faces.map((face) => ({ ...face, inline: true }));
+  const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
+  const containerBrowser = process.env.CHROMIUM_NO_SANDBOX === '1';
   return createRenderer({
-    chromiumPath: process.env.CHROMIUM_PATH || '/usr/bin/chromium',
+    ...(containerBrowser
+      ? {
+          browser: () =>
+            chromium.launch({
+              executablePath: chromiumPath,
+              args: [
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-features=LocalNetworkAccessChecks,BlockInsecurePrivateNetworkRequests',
+              ],
+            }),
+        }
+      : { chromiumPath }),
     fonts,
     onUnknownIcon: 'error',
     iconLoader: async (name) => {

@@ -25,6 +25,7 @@
     "icons:cloud": "node tools/install-cloud-icons.mjs",
     "mcp:build": "node tools/mcp/build.mjs",
     "mcp": "node tools/mcp/server.mjs",
+    "mcp:http": "node tools/mcp/server.mjs --http",
     "canvas": "node tools/mcp/server.mjs --preview"
   },
   "devDependencies": {
