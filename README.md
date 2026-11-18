@@ -34,18 +34,17 @@ A Lambda function invoked by API Gateway stores data in S3 and publishes an even
 
 ## Quick start
 
-Install Node.js 24.22.1, Corepack, Chromium, and curl. From the repository root, run:
+Install Node.js 24.22.1, Corepack, and Chromium. From the repository root, run:
 
 ```sh
 corepack pnpm install --frozen-lockfile
 corepack pnpm build
-corepack pnpm icons:cloud
 corepack pnpm architecture examples/media-pipeline.eraserdiagram
 ```
 
 The command creates `exports/media-pipeline.png` and `exports/media-pipeline.html`. Pass a second argument to set a different export directory. Set `CHROMIUM_PATH` if your browser executable is somewhere other than `/usr/bin/chromium`.
 
-The icon installer needs internet access once. It downloads the AWS and Google Cloud sections of [Eraser’s icon catalog](https://docs.eraser.io/icons) to `icons/cloud/` and saves the available names in `icons/cloud/catalog.json`. Rendering uses local files after setup.
+The AWS and Google Cloud icons are included in `icons/cloud/`. Look up service names in `icons/cloud/catalog.json`. Rendering uses local files after setup. To refresh the catalog from [Eraser’s icon catalog](https://docs.eraser.io/icons), run `corepack pnpm icons:cloud` with curl and internet access.
 
 ## Write a diagram
 

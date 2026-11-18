@@ -27,11 +27,10 @@ a live editor, and SVG and PDF exports are outside this prototype.
 
 ## AWS and Google Cloud icons
 
-Run `corepack pnpm icons:cloud` once with curl and internet access to install every
-icon listed in the [AWS and Google Cloud sections of Eraser's catalog](https://docs.eraser.io/icons).
-The SVGs and a searchable list of names are saved in `icons/cloud/`.
-Copy that directory with the project for offline use. The renderer checks your
-custom icon directory first, then uses the installed cloud catalog.
+The repository includes the AWS and Google Cloud SVGs and a list of their
+names in `icons/cloud/`. The renderer checks your custom icon directory first,
+then uses the bundled catalog. To update the catalog, run
+`corepack pnpm icons:cloud` with curl and internet access.
 
 Try `corepack pnpm architecture examples/multi-cloud.eraserdiagram` for
 API Gateway, Lambda, S3, Pub/Sub, Cloud Run, and BigQuery in one diagram.
