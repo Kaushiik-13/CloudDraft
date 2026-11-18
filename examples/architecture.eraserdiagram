@@ -1,0 +1,13 @@
+cloud-architecture-diagram
+direction right
+
+Client [color: gray]
+Production [color: blue] {
+  API [label: Orders API, color: blue]
+  Data [color: purple] {
+    Database [label: PostgreSQL, icon: database]
+  }
+}
+
+Client > API: HTTPS
+API > Database: SQL

@@ -61,7 +61,6 @@
     "playwright-core": "1.64.1"
   },
   "devDependencies": {
-    "@eraserlabs/server": "workspace:*",
     "@playwright/test": "1.64.1",
     "fast-check": "^4.9.0"
   }

@@ -4,7 +4,6 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { FontsConfig } from '@eraserlabs/resolve';
-import { buildServer } from '@eraserlabs/server';
 import { stageFonts } from '../src/fonts/staging.js';
 import { injectFonts, prepareFontsRequest } from '../src/fonts/inject.js';
 import { startFontServer } from './support/font-server.js';
@@ -104,7 +103,7 @@ test('file-from-url: staged once into the disk cache, and the font survives orig
   expect(netFonts).toEqual([]);
 });
 
-test('degraded staging: /health reports the family and the page falls back', async ({ page }) => {
+test('degraded staging: the page falls back when a face is unavailable', async ({ page }) => {
   const server = await startFontServer(FIXTURES);
   server.failWith = 404;
   const cacheDir = await mkdtemp(join(tmpdir(), 'eraser-cache-'));
@@ -121,13 +120,7 @@ test('degraded staging: /health reports the family and the page falls back', asy
     ],
   };
 
-  const { app } = await buildServer({ fonts, renderPages: 0 });
-
   try {
-    const health = await app.inject({ method: 'GET', url: '/health' });
-    expect(health.json()).toMatchObject({ status: 'degraded', degraded: [FAMILY] });
-
-    // The same degraded staging drives the page: no face registers, metrics fall back.
     const staged = await stageFonts(fonts);
     expect(staged.faces).toEqual([]);
     await openPage(page);
@@ -137,7 +130,6 @@ test('degraded staging: /health reports the family and the page falls back', asy
     expect(statuses).toEqual({});
     expect(await probeWidth(page, FAMILY)).not.toBe(AHEM_PROBE_WIDTH);
   } finally {
-    await app.close();
     await server.close();
   }
 });

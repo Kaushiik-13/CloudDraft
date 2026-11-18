@@ -303,11 +303,9 @@ export async function createRenderer(options: RendererOptions): Promise<Renderer
 
   async function preparePage(): Promise<Page> {
     const page = await context.newPage();
-    await page.addInitScript({ path: iifePath });
-    // A real doctype via navigation: about:blank is quirks mode, where percentage heights
-    // resolve against the viewport through auto ancestors and auto-sized elements balloon to
-    // page height. A data: URL is a true navigation, so the init script re-runs.
-    await page.goto('data:text/html,<!doctype html><html><head></head><body></body></html>');
+    // Load a standards-mode document without navigating to a data URL.
+    await page.setContent('<!doctype html><html><head></head><body></body></html>');
+    await page.addScriptTag({ path: iifePath });
     await page.evaluate((setup) => window.__eraser.setup(setup), pageSetup);
 
     if (fontsRequest) {
@@ -318,7 +316,12 @@ export async function createRenderer(options: RendererOptions): Promise<Renderer
   }
 
   const poolSize = Math.max(1, options.pages ?? 1);
-  const pool = await Promise.all(Array.from({ length: poolSize }, preparePage));
+  const pool = await Promise.all(Array.from({ length: poolSize }, preparePage)).catch(
+    async (error: unknown) => {
+      await browser.close();
+      throw error;
+    },
+  );
   const waiters: ((page: Page) => void)[] = [];
 
   function acquire(): Promise<Page> {

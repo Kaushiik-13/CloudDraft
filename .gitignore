@@ -36,3 +36,6 @@ Thumbs.db
 /fixtures/.icon-cache/
 /fixtures/*.png
 /tools/watercolor/
+
+# Local architecture exports
+/exports/

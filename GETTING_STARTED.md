@@ -433,7 +433,6 @@ The input is ordinary JSON, so earlier steps in the job — scripts, code genera
 
 If Eraser Diagrams is part of an existing Node service, import `@eraserlabs/diagrams` directly: call `createRenderer` at startup, render per request, and set `pages` to allow concurrent renders. There is no need to run a separate rendering service.
 
-For an all-in-one HTTP service, the repository includes [`@eraserlabs/server`](./packages/server/), a thin Fastify wrapper exposing `/render`, `/validate`, `/registry`, and `/health`. It works standalone and doubles as example code for building your own service around the API.
 
 ## Serverless and Lambda
 

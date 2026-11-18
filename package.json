@@ -16,10 +16,6 @@
     "depcruise": "depcruise packages/*/src --config .dependency-cruiser.cjs",
     "lint:templates": "pnpm --filter @eraserlabs/diagram-templates exec vitest run test/lint.test.ts",
     "typecheck": "tsc -b",
-    "start": "pnpm --filter @eraserlabs/server build && pnpm --filter @eraserlabs/server start",
-    "dev:server": "pnpm --filter @eraserlabs/server dev",
-    "dev:web": "pnpm --filter @eraserlabs/playground dev",
-    "dev": "concurrently -k -n server,web -c blue,magenta \"pnpm dev:server\" \"pnpm dev:web\"",
     "format": "prettier --write .",
     "prepare": "husky",
     "fixtures:import": "tsx tools/fixtures/import.ts",
@@ -27,14 +23,14 @@
     "snap": "pnpm --filter @eraserlabs/diagrams snap",
     "snap:update": "pnpm --filter @eraserlabs/diagrams snap:update",
     "snap:report": "pnpm --filter @eraserlabs/diagrams snap:report",
-    "snap:sheet": "tsx tools/fixtures/snap-sheet.ts"
+    "snap:sheet": "tsx tools/fixtures/snap-sheet.ts",
+    "architecture": "node packages/diagrams/architecture.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@eraserlabs/diagrams": "workspace:*",
     "@eraserlabs/resolve": "workspace:*",
     "@types/node": "^22.10.0",
-    "concurrently": "^10.0.3",
     "dependency-cruiser": "^16.10.0",
     "esbuild": "0.25.12",
     "husky": "^9.1.7",
