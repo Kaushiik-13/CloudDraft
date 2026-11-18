@@ -9,7 +9,7 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 
 COPY . .
-RUN pnpm install --frozen-lockfile && pnpm mcp:build
+RUN pnpm install --frozen-lockfile && pnpm build && pnpm mcp:build
 
 ENV NODE_ENV=production \
   CHROMIUM_PATH=/usr/bin/chromium \
