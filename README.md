@@ -4,6 +4,18 @@ CloudDraft renders cloud architecture diagrams from text files on your machine. 
 
 ## Examples
 
+### Predictive maintenance platform
+
+An AWS reference design that follows machine telemetry from the plant floor through ingestion, scoring, and work-order dispatch. It also shows where fleet dashboards and partner APIs fit.
+
+[![CloudDraft architecture diagram with plant floor, AWS predictive maintenance services, and partner systems](docs/images/predictive-maintenance.png)](docs/images/predictive-maintenance.png)
+
+[Editable JSON source](examples/predictive-maintenance.json). The node coordinates preserve the three-zone layout. After building CloudDraft, regenerate the PNG with:
+
+```sh
+CHROMIUM_PATH=/usr/bin/chromium node packages/diagrams-cli/dist/cli.js render examples/predictive-maintenance.json -o exports/predictive-maintenance.png
+```
+
 ### AWS media pipeline
 
 An S3 upload starts a Step Functions workflow through EventBridge. MediaConvert writes the encoded renditions to S3, and CloudFront serves them from that bucket.

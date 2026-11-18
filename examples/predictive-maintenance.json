@@ -1,0 +1,493 @@
+{
+  "entities": [
+    {
+      "tag": "Textbox",
+      "id": "title",
+      "text": "Predictive maintenance platform",
+      "x": 28,
+      "y": 12,
+      "width": 750,
+      "height": 46,
+      "fontSize": 30
+    },
+    {
+      "tag": "Group",
+      "id": "plant",
+      "title": {
+        "text": "Plant floor"
+      },
+      "x": 28,
+      "y": 82,
+      "width": 252,
+      "height": 623,
+      "color": "gray"
+    },
+    {
+      "tag": "Group",
+      "id": "cloud",
+      "title": {
+        "text": "AWS cloud"
+      },
+      "x": 344,
+      "y": 82,
+      "width": 768,
+      "height": 623,
+      "color": "blue"
+    },
+    {
+      "tag": "Group",
+      "id": "partner",
+      "title": {
+        "text": "Partner systems"
+      },
+      "x": 1176,
+      "y": 82,
+      "width": 252,
+      "height": 623,
+      "color": "orange"
+    },
+    {
+      "tag": "Group",
+      "id": "signals",
+      "title": {
+        "text": "Machine signals"
+      },
+      "x": 48,
+      "y": 135,
+      "width": 212,
+      "height": 171,
+      "color": "gray",
+      "containerId": "plant"
+    },
+    {
+      "tag": "Shape",
+      "id": "plc",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "PLC telemetry",
+          "hAlign": "center"
+        }
+      ],
+      "x": 68,
+      "y": 176,
+      "width": 172,
+      "height": 46,
+      "color": "gray",
+      "containerId": "signals"
+    },
+    {
+      "tag": "Shape",
+      "id": "sensors",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Vibration sensors",
+          "hAlign": "center"
+        }
+      ],
+      "x": 68,
+      "y": 242,
+      "width": 172,
+      "height": 46,
+      "color": "gray",
+      "containerId": "signals"
+    },
+    {
+      "tag": "Group",
+      "id": "edge",
+      "title": {
+        "text": "Gateway"
+      },
+      "x": 48,
+      "y": 346,
+      "width": 212,
+      "height": 108,
+      "color": "gray",
+      "containerId": "plant"
+    },
+    {
+      "tag": "Shape",
+      "id": "greengrass",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "IoT Greengrass",
+          "hAlign": "center"
+        }
+      ],
+      "x": 68,
+      "y": 386,
+      "width": 172,
+      "height": 46,
+      "color": "gray",
+      "containerId": "edge"
+    },
+    {
+      "tag": "Group",
+      "id": "ops",
+      "title": {
+        "text": "Plant operations"
+      },
+      "x": 48,
+      "y": 531,
+      "width": 212,
+      "height": 112,
+      "color": "gray",
+      "containerId": "plant"
+    },
+    {
+      "tag": "Shape",
+      "id": "cmms",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Maintenance system",
+          "hAlign": "center"
+        }
+      ],
+      "x": 68,
+      "y": 574,
+      "width": 172,
+      "height": 46,
+      "color": "gray",
+      "containerId": "ops"
+    },
+    {
+      "tag": "Group",
+      "id": "ingestion",
+      "title": {
+        "text": "Telemetry ingestion"
+      },
+      "x": 368,
+      "y": 135,
+      "width": 720,
+      "height": 171,
+      "color": "blue",
+      "containerId": "cloud"
+    },
+    {
+      "tag": "Shape",
+      "id": "iot",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "AWS IoT Core",
+          "hAlign": "center"
+        }
+      ],
+      "x": 400,
+      "y": 200,
+      "width": 150,
+      "height": 46,
+      "color": "blue",
+      "containerId": "ingestion"
+    },
+    {
+      "tag": "Shape",
+      "id": "stream",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Kinesis Data Streams",
+          "hAlign": "center"
+        }
+      ],
+      "x": 637,
+      "y": 200,
+      "width": 180,
+      "height": 46,
+      "color": "blue",
+      "containerId": "ingestion"
+    },
+    {
+      "tag": "Shape",
+      "id": "archive",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "S3 raw telemetry",
+          "hAlign": "center"
+        }
+      ],
+      "x": 904,
+      "y": 200,
+      "width": 153,
+      "height": 46,
+      "color": "blue",
+      "containerId": "ingestion"
+    },
+    {
+      "tag": "Group",
+      "id": "processing",
+      "title": {
+        "text": "Inference pipeline"
+      },
+      "x": 368,
+      "y": 346,
+      "width": 720,
+      "height": 108,
+      "color": "blue",
+      "containerId": "cloud"
+    },
+    {
+      "tag": "Shape",
+      "id": "features",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Flink feature windows",
+          "hAlign": "center"
+        }
+      ],
+      "x": 396,
+      "y": 386,
+      "width": 177,
+      "height": 46,
+      "color": "blue",
+      "containerId": "processing"
+    },
+    {
+      "tag": "Shape",
+      "id": "inference",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "SageMaker endpoint",
+          "hAlign": "center"
+        }
+      ],
+      "x": 637,
+      "y": 386,
+      "width": 180,
+      "height": 46,
+      "color": "blue",
+      "containerId": "processing"
+    },
+    {
+      "tag": "Shape",
+      "id": "history",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "DynamoDB asset health",
+          "hAlign": "center"
+        }
+      ],
+      "x": 884,
+      "y": 386,
+      "width": 178,
+      "height": 46,
+      "color": "blue",
+      "containerId": "processing"
+    },
+    {
+      "tag": "Group",
+      "id": "actions",
+      "title": {
+        "text": "Alerts and insights"
+      },
+      "x": 368,
+      "y": 531,
+      "width": 720,
+      "height": 112,
+      "color": "blue",
+      "containerId": "cloud"
+    },
+    {
+      "tag": "Shape",
+      "id": "dispatch",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Work-order Lambda",
+          "hAlign": "center"
+        }
+      ],
+      "x": 396,
+      "y": 574,
+      "width": 177,
+      "height": 46,
+      "color": "blue",
+      "containerId": "actions"
+    },
+    {
+      "tag": "Shape",
+      "id": "alerts",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "EventBridge alerts",
+          "hAlign": "center"
+        }
+      ],
+      "x": 637,
+      "y": 574,
+      "width": 180,
+      "height": 46,
+      "color": "blue",
+      "containerId": "actions"
+    },
+    {
+      "tag": "Shape",
+      "id": "dashboard",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Fleet health dashboard",
+          "hAlign": "center"
+        }
+      ],
+      "x": 884,
+      "y": 574,
+      "width": 178,
+      "height": 46,
+      "color": "blue",
+      "containerId": "actions"
+    },
+    {
+      "tag": "Group",
+      "id": "oem",
+      "title": {
+        "text": "Equipment provider"
+      },
+      "x": 1196,
+      "y": 346,
+      "width": 212,
+      "height": 108,
+      "color": "orange",
+      "containerId": "partner"
+    },
+    {
+      "tag": "Shape",
+      "id": "warranty",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Warranty API",
+          "hAlign": "center"
+        }
+      ],
+      "x": 1216,
+      "y": 386,
+      "width": 172,
+      "height": 46,
+      "color": "orange",
+      "containerId": "oem"
+    },
+    {
+      "tag": "Group",
+      "id": "supply",
+      "title": {
+        "text": "Parts supplier"
+      },
+      "x": 1196,
+      "y": 531,
+      "width": 212,
+      "height": 112,
+      "color": "orange",
+      "containerId": "partner"
+    },
+    {
+      "tag": "Shape",
+      "id": "parts",
+      "shape": "rectangle",
+      "texts": [
+        {
+          "text": "Parts availability API",
+          "hAlign": "center"
+        }
+      ],
+      "x": 1216,
+      "y": 574,
+      "width": 172,
+      "height": 46,
+      "color": "orange",
+      "containerId": "supply"
+    }
+  ],
+  "connections": [
+    {
+      "from": "plc",
+      "to": "greengrass",
+      "endArrowhead": "triangle"
+    },
+    {
+      "from": "sensors",
+      "to": "greengrass",
+      "endArrowhead": "triangle"
+    },
+    {
+      "from": "greengrass",
+      "to": "iot",
+      "endArrowhead": "triangle",
+      "label": "MQTT"
+    },
+    {
+      "from": "iot",
+      "to": "stream",
+      "endArrowhead": "triangle",
+      "label": "Telemetry"
+    },
+    {
+      "from": "stream",
+      "to": "archive",
+      "endArrowhead": "triangle",
+      "label": "Archive"
+    },
+    {
+      "from": "stream",
+      "to": "features",
+      "endArrowhead": "triangle",
+      "label": "Window"
+    },
+    {
+      "from": "features",
+      "to": "inference",
+      "endArrowhead": "triangle",
+      "label": "Score"
+    },
+    {
+      "from": "inference",
+      "to": "history",
+      "endArrowhead": "triangle",
+      "label": "Health"
+    },
+    {
+      "from": "inference",
+      "to": "alerts",
+      "endArrowhead": "triangle",
+      "label": "Anomaly"
+    },
+    {
+      "from": "alerts",
+      "to": "dispatch",
+      "endArrowhead": "triangle",
+      "label": "Dispatch"
+    },
+    {
+      "from": "dispatch",
+      "to": "cmms",
+      "endArrowhead": "triangle",
+      "label": "Work order"
+    },
+    {
+      "from": "history",
+      "to": "dashboard",
+      "endArrowhead": "triangle",
+      "label": "Read health"
+    },
+    {
+      "from": "dashboard",
+      "to": "warranty",
+      "endArrowhead": "triangle",
+      "label": "Check warranty"
+    },
+    {
+      "from": "dashboard",
+      "to": "parts",
+      "endArrowhead": "triangle",
+      "label": "Check stock"
+    }
+  ]
+}
