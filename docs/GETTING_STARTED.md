@@ -2,7 +2,7 @@
 
 CloudDraft’s JSON renderer lets you specify node positions and sizes, then
 routes the connectors and exports PNG or HTML. Follow the [CloudDraft quick
-start](./README.md#quick-start) to install dependencies and build the CLI.
+start](../README.md#quick-start) to install dependencies and build the CLI.
 The JSON renderer uses Eraser’s hosted catalog by default for named icons.
 
 ## Your first diagram
@@ -67,7 +67,7 @@ The CLI prints one status line per input and exits `0`:
 ok    diagram.json  → diagram.png  412 ms
 ```
 
-![Rendered first diagram: a blue Web App rectangle connected to an API server icon, connected to a Postgres icon with an "SQL" label](./docs/images/first-diagram.png)
+![Rendered first diagram: a blue Web App rectangle connected to an API server icon, connected to a Postgres icon with an "SQL" label](./images/first-diagram.png)
 
 The Chromium path can also come from the `CHROMIUM_PATH` environment variable or from a config file, and when none of those is set the CLI probes the usual install locations and tells you which one it picked. Precedence is `--chromium-path`, then `CHROMIUM_PATH`, then the config file, then auto-detect.
 
@@ -103,7 +103,7 @@ Flags override environment variables, which override the config file. The config
 
 Unknown keys are rejected rather than ignored, so a typo fails the invocation instead of silently doing nothing.
 
-The full key reference is in the [CLI README](./packages/diagrams-cli/README.md#configuration-file).
+The full key reference is in the [CLI README](../packages/diagrams-cli/README.md#configuration-file).
 
 ## Outputs
 
@@ -119,7 +119,7 @@ eraser-diagrams schema <tag>        # one tag's JSON Schema
 eraser-diagrams init [--force]      # write eraser-diagrams.config.json
 ```
 
-Passing `-` as the input reads the diagram from stdin, which is convenient when another program generates the JSON. Several inputs render through one warm browser; `-o -` streams the bytes to stdout. Every flag is listed in the [CLI README](./packages/diagrams-cli/README.md).
+Passing `-` as the input reads the diagram from stdin, which is convenient when another program generates the JSON. Several inputs render through one warm browser; `-o -` streams the bytes to stdout. Every flag is listed in the [CLI README](../packages/diagrams-cli/README.md).
 
 A third output — the measured diagram as JSON — is currently available through the Node API only; see [Requesting outputs](#requesting-outputs).
 
@@ -187,7 +187,7 @@ In `connections`, `tag` is optional — an untagged connection is a `Relationshi
 
 The form requires **both** keys. `"connections": []` is the whole point of it: a diagram with no edges says so, instead of leaving a reader (or a model) to wonder whether the connections were forgotten. Supplying only one of the two keys is an error.
 
-One other form is accepted — a single interleaved `{ "elements": [...] }` list, which requires `tag` on every element since the list asserts no kind. The full input grammar lives in the [resolve README](./packages/resolve/README.md).
+One other form is accepted — a single interleaved `{ "elements": [...] }` list, which requires `tag` on every element since the list asserts no kind. The full input grammar lives in the [resolve README](../packages/resolve/README.md).
 
 An element whose tag is declared as a connection cannot sit in `entities` (or vice versa) — the tag registry is the authority on kind, and a misfiled element is an `E_KIND_MISMATCH` error rather than a silent reclassification.
 
@@ -227,7 +227,7 @@ const diagram = {
 | `Relationship` | connection | Line between two entities with optional label, arrowheads, and ports. |
 | `DatabaseRelationship` | connection | Database relation: `relType` (`one-to-one`, `one-to-many`, `many-to-one`, `many-to-many`) picks the crow's-foot arrowhead pair. |
 
-The authoritative reference for each tag is its schema, in [`packages/templates/src/templates/`](./packages/templates/src/templates/) — for example [`Shape.schema.ts`](./packages/templates/src/templates/Shape/Shape.schema.ts), [`Icon.schema.ts`](./packages/templates/src/templates/Icon/Icon.schema.ts), [`Group.schema.ts`](./packages/templates/src/templates/Group/Group.schema.ts), and [`Relationship.schema.ts`](./packages/templates/src/templates/Relationship/Relationship.schema.ts). The shared enums (shapes, arrowheads, ports, typefaces, and so on) live in [`enums.ts`](./packages/templates/src/schema/enums.ts). Machine-readable JSON Schemas for all three document forms ship with [`@eraserlabs/protocol`](./packages/protocol/), and the Node API exposes every tag's compiled schema at runtime through `tagSchema(tag)` and `registryInfo()`.
+The authoritative reference for each tag is its schema, in [`packages/templates/src/templates/`](../packages/templates/src/templates/) — for example [`Shape.schema.ts`](../packages/templates/src/templates/Shape/Shape.schema.ts), [`Icon.schema.ts`](../packages/templates/src/templates/Icon/Icon.schema.ts), [`Group.schema.ts`](../packages/templates/src/templates/Group/Group.schema.ts), and [`Relationship.schema.ts`](../packages/templates/src/templates/Relationship/Relationship.schema.ts). The shared enums (shapes, arrowheads, ports, typefaces, and so on) live in [`enums.ts`](../packages/templates/src/schema/enums.ts). Machine-readable JSON Schemas for all three document forms ship with [`@eraserlabs/protocol`](../packages/protocol/), and the Node API exposes every tag's compiled schema at runtime through `tagSchema(tag)` and `registryInfo()`.
 
 ### Common properties
 
@@ -311,7 +311,7 @@ Groups establish structure, not just visuals: containment is authored with `cont
 }
 ```
 
-![Rendered group example: a Backend group containing a Node API icon connected to a Postgres icon](./docs/images/group-containment.png)
+![Rendered group example: a Backend group containing a Node API icon connected to a Postgres icon](./images/group-containment.png)
 
 ## Icons
 
@@ -424,4 +424,4 @@ When you outgrow the defaults, you can override stock components, define your ow
 ## Next steps
 
 - Read [CUSTOMIZATION.md](./CUSTOMIZATION.md) to define your own components, variants, and visual system.
-- Read the [Model Diagramming Protocol spec](./packages/protocol/SPEC.md) for the underlying contracts.
+- Read the [Model Diagramming Protocol spec](../packages/protocol/SPEC.md) for the underlying contracts.

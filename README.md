@@ -69,8 +69,8 @@ connectors are `>`, `<`, `<>`, and `--`. Put custom SVGs in `icons/` or set
 `ARCHITECTURE_ICONS` to point at another directory. Custom icons take precedence
 over the bundled catalog.
 
-For exact node coordinates, see the [JSON diagram guide](GETTING_STARTED.md).
-For custom components and styling, see [Customization](CUSTOMIZATION.md).
+For exact node coordinates, see the [JSON diagram guide](docs/GETTING_STARTED.md).
+For custom components and styling, see [Customization](docs/CUSTOMIZATION.md).
 
 ## Credits and license
 

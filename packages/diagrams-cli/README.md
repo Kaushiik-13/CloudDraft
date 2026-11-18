@@ -100,7 +100,7 @@ Precedence: `--chromium-path` > `CHROMIUM_PATH` > `chromiumPath` in the config f
 | `icons.baseUrl`, `icons.cacheDir`, `icons.timeoutMs`, `icons.cacheTtlMs` |  | Icon loader settings (`createEraserIconLoader`). |
 | `icons.onUnknown` | `"placeholder"` \| `"error"` | Unknown icon policy. |
 | `fonts` | object or string | A `FontsConfig` object, or the path to a JSON file holding one. `path` / `cachePath` inside it resolve against the file that declares them. |
-| `library` | string | ES module path exporting `library` (an `AuthoredLibrary`) and optionally `normalizers`. Replaces the stock library; see [CUSTOMIZATION.md](../../CUSTOMIZATION.md). |
+| `library` | string | ES module path exporting `library` (an `AuthoredLibrary`) and optionally `normalizers`. Replaces the stock library; see [CUSTOMIZATION.md](../../docs/CUSTOMIZATION.md). |
 | `overrides` | string | ES module path exporting `overrides` (`{ templates: TemplateFile[] }`): component overrides merged over the library by name. |
 | `failOnWarning` | boolean | Default `--fail-on-warning`. |
 

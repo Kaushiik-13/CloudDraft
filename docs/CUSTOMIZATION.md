@@ -15,8 +15,8 @@ Component markup contains no JavaScript. It is validated before use, and the fil
 
 Reference material:
 
-- The stock tags are the best examples: [`packages/templates/src/templates/`](./packages/templates/src/templates/) contains each tag's schema, HTML, and CSS side by side.
-- [`@eraserlabs/protocol`](./packages/protocol/README.md) and the [MDP spec](./packages/protocol/SPEC.md) define the underlying contracts a library implements.
+- The stock tags are the best examples: [`packages/templates/src/templates/`](../packages/templates/src/templates/) contains each tag's schema, HTML, and CSS side by side.
+- [`@eraserlabs/protocol`](../packages/protocol/README.md) and the [MDP spec](../packages/protocol/SPEC.md) define the underlying contracts a library implements.
 
 ## The three levels of customization
 
@@ -175,7 +175,7 @@ const outcome = await renderer.render({
 });
 ```
 
-![Three rendered cards: a filled primary "Sign up" card, an outlined "Invite team" card, and a faded dashed disabled "Billing" card, connected by labeled lines](./docs/images/custom-cards.png)
+![Three rendered cards: a filled primary "Sign up" card, an outlined "Invite team" card, and a faded dashed disabled "Billing" card, connected by labeled lines](./images/custom-cards.png)
 
 `manifest` is more than a listing: it is the deterministic emission order, so it decides the CSS cascade order between components.
 
@@ -307,7 +307,7 @@ Normalizers exist for what neither CSS nor an annotation can express. The markup
 - the half of an `Icon`'s `width || height || size || 50px` precedence that is not paint (it writes `sizePx` only when bounds are authored; the token and the 50px default are attribute selectors, and the gated `[data-sized]` rule is what lets bounds outrank them);
 - a handful of small flattenings CSS and `default` cannot express: `vMargin` (clamp), the text-wrap aspect ratio, the `Icon` element→run typeface cascade, `iconColor`, `lineWidthPx`, and the crow-foot arrowhead pair a `relType` implies. Simple omitted values (`shape`, `styleMode`, `vAlign`, `Relationship.endArrowhead`, group-title `width`/`border`) are schema `default`s, filled by AJV during validation.
 
-Declare internal computed properties separately, e.g. `renderProps: { Card: { fillColor: CssColor } }`. They authorize template bindings and post-normalizer policies but are not accepted as authored input or copied into measured JSON. Normalizers may also update authored properties when that is their intended contract. See the [resolver's internal-paint contract](./packages/resolve/README.md#themes-and-internal-paints); optional markup bindings still need concrete defaults (the `var()` caveat above).
+Declare internal computed properties separately, e.g. `renderProps: { Card: { fillColor: CssColor } }`. They authorize template bindings and post-normalizer policies but are not accepted as authored input or copied into measured JSON. Normalizers may also update authored properties when that is their intended contract. See the [resolver's internal-paint contract](../packages/resolve/README.md#themes-and-internal-paints); optional markup bindings still need concrete defaults (the `var()` caveat above).
 
 **Normalizers are application code, not library data — know the trust boundary.** Schemas, component markup, and CSS are data, not code: `AuthoredLibrary` contains exactly those, they serialize, and a hosted product can accept them from untrusted profile authors because preparation validates and the engine never executes them. Normalizers are JavaScript functions passed separately (`createRenderer({ normalizers })`) and run in your process — ship them only as part of your own application, and never accept them from outside the trust boundary. A profile that must stay pure data can use CSS expressions and declared authored properties instead. Internal `renderProps` are declarations only; they do not execute code or compute values.
 
@@ -319,4 +319,4 @@ Text properties should declare an `x-content` policy so the resolver can sanitiz
 
 ## Going further
 
-The stock components in [`packages/templates/src/templates/`](./packages/templates/src/templates/) exercise everything above — schemas, roles, sub-template composition, normalizer-fed bindings — and the [MDP spec](./packages/protocol/SPEC.md) and [render contract](./packages/render/SPEC.md) define the underlying protocol these conventions implement.
+The stock components in [`packages/templates/src/templates/`](../packages/templates/src/templates/) exercise everything above — schemas, roles, sub-template composition, normalizer-fed bindings — and the [MDP spec](../packages/protocol/SPEC.md) and [render contract](../packages/render/SPEC.md) define the underlying protocol these conventions implement.
